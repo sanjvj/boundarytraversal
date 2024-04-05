@@ -1,0 +1,64 @@
+import java.util.*;
+
+class TreeNode {
+    int val;
+    TreeNode left, right;
+
+    public TreeNode(int value) {
+        val = value;
+        left = right = null;
+    }
+}
+
+public class BinaryTreeBoundaryTraversal {
+
+    private static void printLeaves(TreeNode root) {
+        if (root != null) {
+            printLeaves(root.left);
+            if (root.left == null && root.right == null) System.out.print(root.val + " ");
+            printLeaves(root.right);
+        }
+    }
+
+    public static void boundaryTraversal(TreeNode root) {
+        if (root != null) {
+            System.out.print(root.val + " ");
+            printLeaves(root.left);
+            printLeaves(root.right);
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input the values for the binary tree nodes
+        System.out.println("Enter the value of the root node:");
+        int rootValue = scanner.nextInt();
+        TreeNode root = new TreeNode(rootValue);
+
+        Queue<TreeNode> nodeQueue = new LinkedList<>();
+        nodeQueue.offer(root);
+
+        while (!nodeQueue.isEmpty()) {
+            TreeNode current = nodeQueue.poll();
+
+            System.out.println("Enter the value of the left child of " + current.val + " (enter -1 if there's none):");
+            int leftValue = scanner.nextInt();
+            if (leftValue != -1) {
+                current.left = new TreeNode(leftValue);
+                nodeQueue.offer(current.left);
+            }
+
+            System.out.println("Enter the value of the right child of " + current.val + " (enter -1 if there's none):");
+            int rightValue = scanner.nextInt();
+            if (rightValue != -1) {
+                current.right = new TreeNode(rightValue);
+                nodeQueue.offer(current.right);
+            }
+        }
+
+        // Calling the boundaryTraversal function
+        System.out.println("Boundary Traversal:");
+        boundaryTraversal(root);
+    }
+}
